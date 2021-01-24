@@ -1,0 +1,28 @@
+{
+
+  "parser": "babel-eslint",
+  "extends": [
+    "plugin:react/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true,
+    "node": true
+  },
+  "rules": {
+    "linebreak-style": 0,
+    "import/prefer-default-export": 0,
+    "no-console": 0,
+    "no-unused-vars": 1,
+    "object-curly-newline": 0,
+    "max-len": [2, 140, 2, {
+      "ignoreUrls": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true,
+      "ignoreComments": true
+    }],
+    "no-multiple-empty-lines": ["error", { "max": 1 }],
+    "react/prop-types": 0
+  }
+}
