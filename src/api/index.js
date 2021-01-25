@@ -21,9 +21,13 @@ export const deleteMenuItemAsync = async (item) =>
 		headers: { 'X-Channel-Id': item.channel }
 	});
 
+export const fetchMenuStatsAsync = async() =>
+	await axios.get(`${INFRA_API_URL}/stats/menus`);
+
 export default {
 	fetchMenuListAsync,
 	saveMenuItemAsync,
 	saveMenuOrderAsync,
 	deleteMenuItemAsync,
+	fetchMenuStatsAsync,
 }
