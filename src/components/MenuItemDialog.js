@@ -38,7 +38,6 @@ const MenuItemDialog = ({
 		}
 		setErrors(updatedErrors);
 		const hasErrors = Object.values(errors).find(err => !!err);
-		console.log('submit', { errors, hasErrors, item });
 		if (!hasErrors) {
 			await handleSubmitAsync();
 		}
@@ -53,7 +52,6 @@ const MenuItemDialog = ({
 			<form onSubmit={onSubmit}>
 				<DialogContent style={{ minWidth: 350 }}>
 					<DialogContentText>
-						<p>prio: {item.priority}</p>
 						{fields.map(field => (
 							<Box mb={2} key={field.name}>
 								<TextField
