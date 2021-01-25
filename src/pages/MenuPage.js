@@ -12,8 +12,9 @@ const MAX_COLUMNS = 6;
 const MAX_ROWS = 10;
 const addButtonProps = { size: 'small', variant: 'outlined', startIcon: <AddIcon /> };
 
-const MenuPage = ({ channel }) => {
-	const NEW_ITEM = { id: undefined, title: '', url: '', menuItemId: null, subItems: [], channel };
+const MenuPage = ({ channel, match }) => {
+	const { type } = match.params;
+	const NEW_ITEM = { id: undefined, label: '', url: '', menuItemId: null, subItems: [], channel, type };
 	const [data, setData] = useState([]);
 	const [activeItem, setActiveItem] = useState(NEW_ITEM);
 	const [showDialog, setShowDialog] = useState(false);
@@ -22,7 +23,7 @@ const MenuPage = ({ channel }) => {
 
 	const fetchListAsync = async () => {
 		setIsLoading(true);
-		const result = await fetchMenuListAsync({ channel });
+		const result = await fetchMenuListAsync({ channel, type });
 		setIsLoading(false);
 		if (result.status === 200) {
 			setData(result.data.data || []);

@@ -35,7 +35,7 @@ const MenuSubCell = ({
 						style={{ color: 'white', cursor: 'pointer', textTransform: 'capitalize' }}
 						onClick={handleEdit}
 					>
-						{item.title}
+						{item.label}
 					</div>
 				</Tooltip>
 			</Grid>

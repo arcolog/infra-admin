@@ -1,9 +1,9 @@
-import { getChannels } from './constants';
+import { CHANNELS } from './constants';
 import MenuPage from './pages/MenuPage';
 import MainPage from './pages/MainPage';
 
-const routes = getChannels().map(channel => (
-	{ path: `/${channel}/menu`, label: 'Menüü', component: MenuPage, requireChannel: true }
+const routes = CHANNELS.map(channel => (
+	{ path: `/${channel}/menu/:type`, label: 'Menüü', component: MenuPage, requireChannel: true }
 ));
 
 // NB! keep the main page on last position

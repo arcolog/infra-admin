@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { INFRA_API_URL } from '../env';
 
-export const fetchMenuListAsync = async ({ channel }) =>
-	await axios.get(`${INFRA_API_URL}/menu/list`,	{
+export const fetchMenuListAsync = async ({ channel, type }) =>
+	await axios.get(`${INFRA_API_URL}/menu/list/${type}`,	{
 		headers: { 'X-Channel-Id': channel }
 	});
 

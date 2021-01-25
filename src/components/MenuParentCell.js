@@ -35,7 +35,7 @@ const MenuParentCell = ({
 					title={`URL: ${item.url}`}
 					onClick={handleEdit}
 				>
-					{item.title}
+					{item.label}
 				</div>
 			</Grid>
 			<Grid item>

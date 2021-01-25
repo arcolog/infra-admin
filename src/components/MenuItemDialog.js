@@ -19,7 +19,7 @@ const MenuItemDialog = ({
 	const [errors, setErrors] = React.useState({});
 	const [deleteConfirmVisible, setDeleteConfirmVisible] = React.useState(false);
 	const fields = [
-		{	name: 'title', label: 'Nimetus', helperText: 'Vähemalt 5 tähte', validate: val => val.length < 5 ? 'Nimetus on liiga lühike' : undefined },
+		{	name: 'label', label: 'Nimetus', helperText: 'Vähemalt 5 tähte', validate: val => val.length < 5 ? 'Nimetus on liiga lühike' : undefined },
 		{	name: 'url', label: 'URL', helperText: 'Lokaalne (/..) või väline (https://...) link', validate: val => !val ? 'URL puudub' : undefined },
 	]
 	const modalLabel = item.menuItemId ?
@@ -96,7 +96,7 @@ MenuItemDialog.propTypes = {
 	item: PropTypes.shape({
 		id: PropTypes.number,
 		menuItemId: PropTypes.number,
-		title: PropTypes.string,
+		label: PropTypes.string,
 		url: PropTypes.string,
 		subItems: PropTypes.array,
 	}),
