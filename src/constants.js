@@ -30,10 +30,20 @@ export const MENU_TYPE_DETAILS = {
 
 // list is similar to menu, but is has only parent links
 export const LIST_TYPE_SOCIAL = 'social';
+export const LIST_TYPE_FOOTER = 'footer';
+export const LIST_TYPE_NOTIFICATION = 'notification';
 export const LIST_TYPES = {
 	[LIST_TYPE_SOCIAL]: {
 		title: 'Sotsiaalmeedia',
-		description: 'Sotsiaalmeedia linke näidatakse jaluses'
+		description: 'Sotsiaalmeedia linke näidatakse jaluses ikoonidena'
+	},
+	[LIST_TYPE_FOOTER]: {
+		title: 'Jaluse lingid',
+		description: "Näiteks: 'Telli uudiskiri', 'Reklaam' vmt",
+	},
+	[LIST_TYPE_NOTIFICATION]: {
+		title: 'Teavituslingid',
+		description: "Näiteks: 'Kasutustingimused', 'Privaatsustingimused' jne",
 	},
 }
 
@@ -41,6 +51,7 @@ export const SOCIAL_MEDIA_TYPES = {
 	facebook: 'Facebook',
 	instagram: 'Instagram',
 	linkedin: 'LinkedIn',
+	twitter: 'Twitter',
 	rss: 'RSS',
 	mail: 'E-mail',
 };

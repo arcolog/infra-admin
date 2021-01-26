@@ -17,9 +17,8 @@ const DraggableList = ({
   type,
   handleDragEndAsync = () => {},
   isVertical = true,
-  width = 250,
+  width = 400,
 }) => {
-
   const grid = 8;
   const [sortedItems, setSortedItems] = useState(items);
 
@@ -53,7 +52,7 @@ const DraggableList = ({
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="droppable">
+      <Droppable droppableId={`droppable-${type}`}>
         {(provided, snapshot) => (
           <div
             {...provided.droppableProps}
@@ -61,7 +60,7 @@ const DraggableList = ({
             style={getListStyle(snapshot.isDraggingOver)}
           >
             {sortedItems.map((item, index) => (
-              <Draggable key={item.label} draggableId={item.label} index={index}>
+              <Draggable key={item.label} draggableId={`draggable-${item.id || item.label}`} index={index}>
                 {(provided, snapshot) => (
                   <div ref={provided.innerRef}
                     {...provided.draggableProps}
@@ -69,7 +68,7 @@ const DraggableList = ({
                     style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                   >
                     <DragIcon size="large" style={{ position: 'absolute', left: 5, top: 15 }} />
-                    <ItemComponent item={item} />
+                    <ItemComponent item={item} type={type} />
                   </div>
                 )}
               </Draggable>
