@@ -36,6 +36,7 @@ const MainPage = () => {
 					<TableRow>
 						<TableCell>Kanal</TableCell>
 						{MENU_TYPES.map(type => <TableCell key={type}>{MENU_TYPE_DETAILS[type].description}</TableCell>)}
+						<TableCell>Lingid</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -51,6 +52,7 @@ const MainPage = () => {
 									</TableCell>
 								)
 							})}
+							<TableCell><Link to={`/${channel}/links`}>Muuda</Link></TableCell>
 						</StyledTableRow>
 					))}
 				</TableBody>

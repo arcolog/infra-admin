@@ -2,7 +2,7 @@ import React, { useEffect, useState  } from 'react';
 import { Button, Grid, Table, TableBody, TableHead, TableRow, TableCell } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/AddBox';
 
-import { fetchMenuListAsync, saveMenuItemAsync, saveMenuOrderAsync, deleteMenuItemAsync } from '../api/index';
+import { fetchMenuListOfTypeAsync, saveMenuItemAsync, saveMenuOrderAsync, deleteMenuItemAsync } from '../api/index';
 import { moveArrayItem } from '../utils';
 import MenuItemDialog from '../components/MenuItemDialog';
 import MenuParentCell from '../components/MenuParentCell';
@@ -23,7 +23,7 @@ const MenuPage = ({ channel, match }) => {
 
 	const fetchListAsync = async () => {
 		setIsLoading(true);
-		const result = await fetchMenuListAsync({ channel, type });
+		const result = await fetchMenuListOfTypeAsync({ channel, type });
 		setIsLoading(false);
 		if (result.status === 200) {
 			setData(result.data.data || []);

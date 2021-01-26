@@ -28,6 +28,23 @@ export const MENU_TYPE_DETAILS = {
 	}
 };
 
+// list is similar to menu, but is has only parent links
+export const LIST_TYPE_SOCIAL = 'social';
+export const LIST_TYPES = {
+	[LIST_TYPE_SOCIAL]: {
+		title: 'Sotsiaalmeedia',
+		description: 'Sotsiaalmeedia linke näidatakse jaluses'
+	},
+}
+
+export const SOCIAL_MEDIA_TYPES = {
+	facebook: 'Facebook',
+	instagram: 'Instagram',
+	linkedin: 'LinkedIn',
+	rss: 'RSS',
+	mail: 'E-mail',
+};
+
 export const MUI_PROPS = {
 	variant: 'contained'
 };
@@ -37,4 +54,6 @@ export default {
 	MENU_TYPES,
 	MENU_TYPE_DETAILS,
 	MUI_PROPS,
+	LIST_TYPES,
+	SOCIAL_MEDIA_TYPES,
 }
