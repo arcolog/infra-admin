@@ -29,7 +29,7 @@ const Nav = () => {
 
 				<h3>
 					{selectedChannel && <Chip label={getChannelName(selectedChannel)} style={{ marginRight: 5 }} />}
-					{selectedType && <Chip label={MENU_TYPE_DETAILS[selectedType].description} />}
+					{selectedType && <Chip label={MENU_TYPE_DETAILS[selectedType].title} />}
 				</h3>
 			</Toolbar>
 		</AppBar>

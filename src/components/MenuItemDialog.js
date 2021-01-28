@@ -22,9 +22,7 @@ const MenuItemDialog = ({
 		{	name: 'label', label: 'Nimetus', helperText: 'Vähemalt 5 tähte', validate: val => val.length < 5 ? 'Nimetus on liiga lühike' : undefined },
 		{	name: 'url', label: 'URL', helperText: 'Lokaalne (/..) või väline (https://...) link', validate: val => !val ? 'URL puudub' : undefined },
 	]
-	const modalLabel = item.menuItemId ?
-		(item.id ? 'Muuda alamenüü kirjet' : 'Lisa alamenüü kirje') :
-		(item.id ? 'Muuda peamenüü kirjet' : 'Lisa peamenüü kirje');
+	const modalLabel = item.id ? 'Muuda kirjet' : 'Lisa kirje';
 	const showDelete = item.id && (
 		!!item.menuItemId || // is subitem
 		!item.subItems.length // is parent without subitems

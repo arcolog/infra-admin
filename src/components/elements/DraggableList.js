@@ -24,10 +24,9 @@ const DraggableList = ({
 
   const getItemStyle = (isDragging, draggableStyle) => ({
     userSelect: 'none',
-    padding: grid * 2,
-    paddingLeft: 36, // for drag icon
+    padding: isVertical ? `6px 8px 6px 32px` : `6px 8px 26px 8px`,
     position: 'relative',
-    margin: `0 0 ${grid}px 0`,
+    margin: isVertical ? `0 0 ${grid}px 0` : `0 ${grid}px 0 0`,
     background: isDragging ? 'lightblue' : '#f0f0f0',
     ...draggableStyle
   });
@@ -52,7 +51,7 @@ const DraggableList = ({
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId={`droppable-${type}`}>
+      <Droppable droppableId={`droppable-${type}`} direction={isVertical ? 'vertical' : 'horizontal'}>
         {(provided, snapshot) => (
           <div
             {...provided.droppableProps}
@@ -67,7 +66,11 @@ const DraggableList = ({
                     {...provided.dragHandleProps}
                     style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                   >
-                    <DragIcon size="large" style={{ position: 'absolute', left: 5, top: 15 }} />
+                    <DragIcon size="large" style={{ position: 'absolute',
+                      left: isVertical ? 5 : 8,
+                      top: isVertical ? 6 : 32,
+                      transform: isVertical ? 'none' : 'rotateZ(90deg)' }}
+                    />
                     <ItemComponent item={item} type={type} />
                   </div>
                 )}
@@ -88,7 +91,7 @@ DraggableList.propTypes = {
     url: PropTypes.string,
     priority: PropTypes.number,
   })),
-  ItemComponent: PropTypes.node.isRequired,
+  ItemComponent: PropTypes.func.isRequired, // functional component
   type: PropTypes.oneOf(Object.keys(LIST_TYPES)).isRequired,
   handleDragEndAsync: PropTypes.func, // (type, items) as props
   isVertical: PropTypes.bool,
