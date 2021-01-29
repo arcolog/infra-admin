@@ -40,18 +40,22 @@ export const LIST_TYPES = {
 	[LIST_TYPE_NOTIFICATION]: {
 		title: 'Teavituslingid',
 		description: "Otsingu kõrval (nt 'Telli Äripäev', 'Minu Äripäev')",
+		direction: 'horizontal', // how to show items editing block
 	},
 	[LIST_TYPE_FOOTER]: {
 		title: 'Jaluse lingid',
 		description: "Näiteks: 'Telli uudiskiri', 'Reklaam' vmt",
+		direction: 'vertical',
 	},
 	[LIST_TYPE_SOCIAL]: {
 		title: 'Sotsiaalmeedia',
-		description: 'Näidatakse jaluses ikoonidena'
+		description: 'Näidatakse jaluses ikoonidena',
+		direction: 'horizontal',
 	},
 	[LIST_TYPE_LEGAL]: {
 		title: 'Tingimuslingid',
 		description: "Kõige all väikselt (nt 'Kasutustingimused', 'Privaatsustingimused' jne)",
+		direction: 'vertical',
 	},
 }
 
