@@ -9,7 +9,7 @@ const LoadingBackdrop = ({
 	thickness = 4,
 }) => (
 	<Backdrop open={open} onClick={handleClose}>
-		<CircularProgress {...{ color, size, thickness }} />
+		<CircularProgress disableShrink {...{ color, size, thickness }} />
 	</Backdrop>
 );
 

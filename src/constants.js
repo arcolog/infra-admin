@@ -18,32 +18,44 @@ export const MENU_TYPES = [
 
 export const MENU_TYPE_DETAILS = {
 	[MENU_TYPE_TOP]: {
-		description: 'Ülamenüü (logo kohal)',
+		title: 'Ülamenüü',
+		description: 'logo kohal',
 	},
 	[MENU_TYPE_MIDDLE]: {
-		description: 'Väike menüü (otsingu kõrval)',
+		title: 'Väike menüü',
+		description: 'otsingu kõrval',
 	},
 	[MENU_TYPE_MAIN]: {
-		description: 'Peamenüü (logo all)',
+		title: 'Peamenüü',
+		description: 'logo all',
 	}
 };
 
 // list is similar to menu, but is has only parent links
 export const LIST_TYPE_SOCIAL = 'social';
-export const LIST_TYPE_FOOTER = 'footer';
-export const LIST_TYPE_NOTIFICATION = 'notification';
+export const LIST_TYPE_FOOTER = 'footer'; // footer.links
+export const LIST_TYPE_LEGAL = 'legal'; //footer.base.links
+export const LIST_TYPE_NOTIFICATION = 'notification'; // notifications.links
 export const LIST_TYPES = {
-	[LIST_TYPE_SOCIAL]: {
-		title: 'Sotsiaalmeedia',
-		description: 'Sotsiaalmeedia linke näidatakse jaluses ikoonidena'
+	[LIST_TYPE_NOTIFICATION]: {
+		title: 'Teavituslingid',
+		description: "Otsingu kõrval (nt 'Telli Äripäev', 'Minu Äripäev')",
+		direction: 'horizontal', // how to show items editing block
 	},
 	[LIST_TYPE_FOOTER]: {
 		title: 'Jaluse lingid',
 		description: "Näiteks: 'Telli uudiskiri', 'Reklaam' vmt",
+		direction: 'vertical',
 	},
-	[LIST_TYPE_NOTIFICATION]: {
-		title: 'Teavituslingid',
-		description: "Näiteks: 'Kasutustingimused', 'Privaatsustingimused' jne",
+	[LIST_TYPE_SOCIAL]: {
+		title: 'Sotsiaalmeedia',
+		description: 'Näidatakse jaluses ikoonidena',
+		direction: 'horizontal',
+	},
+	[LIST_TYPE_LEGAL]: {
+		title: 'Tingimuslingid',
+		description: "Kõige all väikselt (nt 'Kasutustingimused', 'Privaatsustingimused' jne)",
+		direction: 'vertical',
 	},
 }
 

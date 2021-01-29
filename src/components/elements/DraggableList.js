@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PropTypes from 'prop-types';
+import { Grid } from '@material-ui/core';
 import DragIcon from '@material-ui/icons/DragIndicator';
 import { LIST_TYPES } from '../../constants';
 
@@ -18,25 +19,26 @@ const DraggableList = ({
   handleDragEndAsync = () => {},
   isVertical = true,
   width = 400,
+  renderKey = '', // when this changes, whole list re-renders
 }) => {
   const grid = 8;
   const [sortedItems, setSortedItems] = useState(items);
 
   const getItemStyle = (isDragging, draggableStyle) => ({
-    userSelect: 'none',
-    padding: grid * 2,
-    paddingLeft: 36, // for drag icon
-    position: 'relative',
-    margin: `0 0 ${grid}px 0`,
     background: isDragging ? 'lightblue' : '#f0f0f0',
+    margin: isVertical ? `0 0 ${grid}px 0` : `0 ${grid}px 0 0`,
+    userSelect: 'none',
+    width: isVertical ? '100%' : 'auto',
     ...draggableStyle
   });
 
   const getListStyle = isDraggingOver => ({
+    alignItems: 'center',
     background: isDraggingOver ? '#ffa' : '#fafafa',
-    padding: grid,
     display: 'flex',
     flexDirection: isVertical ? 'column' : 'row',
+    flexWrap: 'nowrap',
+    padding: grid,
     width,
   });
 
@@ -50,9 +52,15 @@ const DraggableList = ({
     await handleDragEndAsync(type, reSortedItems);
   }
 
+  const getKey = item => `${item.id || '0'}|${item.label}|${item.url}`;
+
+  React.useEffect(() => {
+    setSortedItems(items);
+  }, [renderKey])
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId={`droppable-${type}`}>
+      <Droppable droppableId={`droppable-${type}`} direction={isVertical ? 'vertical' : 'horizontal'}>
         {(provided, snapshot) => (
           <div
             {...provided.droppableProps}
@@ -60,15 +68,21 @@ const DraggableList = ({
             style={getListStyle(snapshot.isDraggingOver)}
           >
             {sortedItems.map((item, index) => (
-              <Draggable key={item.label} draggableId={`draggable-${item.id || item.label}`} index={index}>
+              <Draggable key={getKey(item)} draggableId={`draggable-${getKey(item)}`} index={index}>
                 {(provided, snapshot) => (
                   <div ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                   >
-                    <DragIcon size="large" style={{ position: 'absolute', left: 5, top: 15 }} />
-                    <ItemComponent item={item} type={type} />
+                    <Grid container justify="flex-start" alignItems="center" direction={isVertical ? 'row' : 'column-reverse'}>
+                      <Grid item>
+                        <DragIcon fontSize="large" color="disabled" style={{ transform: isVertical ? 'none' : 'rotateZ(90deg)' }} />
+                      </Grid>
+                      <Grid item style={{ padding: 4 }}>
+                        <ItemComponent item={item} type={type} />
+                      </Grid>
+                    </Grid>
                   </div>
                 )}
               </Draggable>
@@ -88,7 +102,7 @@ DraggableList.propTypes = {
     url: PropTypes.string,
     priority: PropTypes.number,
   })),
-  ItemComponent: PropTypes.node.isRequired,
+  ItemComponent: PropTypes.func.isRequired, // functional component
   type: PropTypes.oneOf(Object.keys(LIST_TYPES)).isRequired,
   handleDragEndAsync: PropTypes.func, // (type, items) as props
   isVertical: PropTypes.bool,

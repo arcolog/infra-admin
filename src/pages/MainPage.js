@@ -35,7 +35,12 @@ const MainPage = () => {
 				<TableHead>
 					<TableRow>
 						<TableCell>Kanal</TableCell>
-						{MENU_TYPES.map(type => <TableCell key={type}>{MENU_TYPE_DETAILS[type].description}</TableCell>)}
+						{MENU_TYPES.map(type => (
+							<TableCell key={type}>
+								<b>{MENU_TYPE_DETAILS[type].title}</b><br />
+								{MENU_TYPE_DETAILS[type].description}
+							</TableCell>
+						))}
 						<TableCell>Lingid</TableCell>
 					</TableRow>
 				</TableHead>
