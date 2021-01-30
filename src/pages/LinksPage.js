@@ -23,7 +23,7 @@ const DEFAULT_ITEMS_BY_TYPE = {
   [LIST_TYPE_LEGAL]: [],
 };
 
-// NB! DraggableList memoizes its items and does not re-render by default when some of it items changes.
+// NB! DraggableList memorizes its items and does not re-render by default when some of it items changes.
 // So we have to provide additional property 'renderKey' and when this changes, then also DraggableList re-renders.
 const DEFAULT_RENDER_KEYS_BY_TYPE = Object.keys(LIST_TYPES).reduce((acc, type) => ({ [type]: type }), {});
 
@@ -38,19 +38,25 @@ const LinksPage = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
 
-  React.useEffect(async () => {
-    setPageIsLoading(true);
-    const updatedItemsByType = (await fetchMenuListAsync({ channel })).data.data;
-    // add missing social media items
+  const composeSocialMediaLinks = items => {
+    // add missing social media items to list
     const type = LIST_TYPE_SOCIAL;
-    const existingSocialTypes = updatedItemsByType[type].map(item => item.label);
+    const updatedItems = [...items];
+    const existingSocialTypes = updatedItems.map(item => item.label);
     for (const socialType of Object.keys(SOCIAL_MEDIA_TYPES)) {
       if (existingSocialTypes.indexOf(socialType) < 0) {
-        updatedItemsByType[type].push({
-          channel, type, label: socialType, url: '', priority: updatedItemsByType[type].length
+        updatedItems.push({
+          channel, type, label: socialType, url: '', priority: updatedItems.length
         });
       }
     }
+    return updatedItems;
+  }
+
+  React.useEffect(async () => {
+    setPageIsLoading(true);
+    const updatedItemsByType = (await fetchMenuListAsync({ channel })).data.data;
+    updatedItemsByType[LIST_TYPE_SOCIAL] = composeSocialMediaLinks(updatedItemsByType[LIST_TYPE_SOCIAL]);
     setItemsByType(updatedItemsByType);
     setPageIsLoading(false);
   }, []);
@@ -59,7 +65,7 @@ const LinksPage = ({
     return <LinearProgress />
   }
 
-  const handleDragEndAsync = async (type, items) => {
+  const handleDragEndAsync = async ({ type, items }) => {
     setItemsByType(prevState => ({ ...prevState, [type]: items }));
     await saveMenuOrderAsync({ channel, data: items });
   }
@@ -69,7 +75,10 @@ const LinksPage = ({
     const result = await fetchMenuListOfTypeAsync({ channel, type });
     setIsLoading(false);
     if (result.status === 200) {
-      const typeItems = result.data.data || [];
+      let typeItems = result.data.data || [];
+      if (type === LIST_TYPE_SOCIAL) {
+        typeItems = composeSocialMediaLinks(typeItems);
+      }
       setItemsByType(prevState => ({ ...prevState, [type]: typeItems }));
       setRenderKeysByType(prevState => ({ ...prevState, [type]: `${type}-${(new Date()).toTimeString()}` }));
     }

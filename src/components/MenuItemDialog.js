@@ -5,6 +5,7 @@ import LoopIcon from '@material-ui/icons/Loop';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CancelIcon from '@material-ui/icons/Cancel';
 import SaveIcon from '@material-ui/icons/Save';
+import { LIST_TYPE_SOCIAL } from '../constants';
 
 const MenuItemDialog = ({
   item,
@@ -19,7 +20,7 @@ const MenuItemDialog = ({
 	const [errors, setErrors] = React.useState({});
 	const [deleteConfirmVisible, setDeleteConfirmVisible] = React.useState(false);
 	const fields = [
-		{	name: 'label', label: 'Nimetus', helperText: 'Vähemalt 5 tähte', validate: val => val.length < 5 ? 'Nimetus on liiga lühike' : undefined },
+		{	name: 'label', label: 'Nimetus', helperText: 'Vähemalt 3 tähte', validate: val => val.length < 3 ? 'Nimetus on liiga lühike' : undefined },
 		{	name: 'url', label: 'URL', helperText: 'Lokaalne (/..) või väline (https://...) link', validate: val => !val ? 'URL puudub' : undefined },
 	]
 	const modalLabel = item.id ? 'Muuda kirjet' : 'Lisa kirje';
@@ -64,6 +65,7 @@ const MenuItemDialog = ({
 									variant="outlined"
 								  size="small"
 									style={{ width: '100%' }}
+									disabled={item.type === LIST_TYPE_SOCIAL && field.name === 'label'}
 								/>
 							</Box>
 						))}
