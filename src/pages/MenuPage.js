@@ -78,8 +78,12 @@ const MenuPage = ({ channel, match }) => {
 	}
 
 	const ParentItemComponent = ({ item }) => (
-		<div key={item.id} style={{ cursor: 'pointer', width: 100, padding: 4, background: '#35b', color: '#fff' }}
-		           onClick={() => openDialog(item)}>{item.label}</div>
+		<div
+			onClick={() => openDialog(item)}
+	    style={{ cursor: 'pointer', width: 100, padding: 4, background: '#35b', color: '#fff' }}
+		>
+			{item.label}
+		</div>
 	);
 
 	const SubItemComponent = ({ item }) => (
@@ -102,7 +106,7 @@ const MenuPage = ({ channel, match }) => {
 				<DraggableList {...{ type, items: data, ItemComponent: ParentItemComponent,
 					renderKey, handleDragEndAsync, width: '100%', isVertical: false, isCompact: true, showDragIcon: false }} />
 			</Grid>
-			<Grid container justify="space-between" wrap="nowrap">
+			<Grid container justify="flex-start" wrap="nowrap">
 				{data.map(parentItem => (
 					<Grid item key={parentItem.id} style={{ width: 110 }}>
 						<DraggableList {...{ type, parentItem, items: parentItem.subItems, ItemComponent: SubItemComponent,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, useLocation } from 'react-router-dom';
-
 import { Container } from '@material-ui/core';
+
 import Nav from './components/Nav';
 import routes from './routes';
 import { getChannelFromPath } from './utils';

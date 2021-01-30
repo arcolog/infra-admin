@@ -1,9 +1,11 @@
 export const {
-	NODE_ENV = 'development',
-	INFRA_API_URL = 'http://localhost:3333/v1',
+	NODE_ENV,
+	REACT_APP_INFRA_API_URL: INFRA_API_URL,
+	REACT_APP_INFRA_API_KEY: INFRA_API_KEY,
 } = process.env;
 
 export default {
 	NODE_ENV,
 	INFRA_API_URL,
+	INFRA_API_KEY,
 }

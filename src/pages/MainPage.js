@@ -47,7 +47,7 @@ const MainPage = () => {
 				<TableBody>
 					{CHANNELS.map(channel => (
 						<StyledTableRow key={channel}>
-							<TableCell>{getChannelName(channel)}</TableCell>
+							<TableCell>{stats[channel].name}</TableCell>
 							{MENU_TYPES.map(type => {
 								const total = stats[channel] ? stats[channel][type] : 0;
 								return (
