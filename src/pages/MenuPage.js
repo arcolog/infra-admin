@@ -2,7 +2,7 @@ import React, { useEffect, useState  } from 'react';
 import { Button, Grid } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/AddBox';
 
-import { fetchMenuListOfTypeAsync, saveMenuItemAsync, saveMenuOrderAsync, deleteMenuItemAsync } from '../api/index';
+import { fetchMenuListOfTypeAsync, postMenuItemAsync, postMenuOrderAsync, deleteMenuItemAsync } from '../api/index';
 import MenuItemDialog from '../components/MenuItemDialog';
 import DraggableList from '../components/elements/DraggableList';
 
@@ -38,7 +38,7 @@ const MenuPage = ({ channel, match }) => {
 		setError('');
 		try {
 			setIsLoading(true);
-			const result = await saveMenuItemAsync(activeItem);
+			const result = await postMenuItemAsync(activeItem);
 			setIsLoading(false);
 			if (result.status < 400) {
 				await fetchListAsync();
@@ -68,7 +68,7 @@ const MenuPage = ({ channel, match }) => {
 	}
 
 	const handleDragEndAsync = async ({ items }) => {
-		await saveMenuOrderAsync({ channel, data: items });
+		await postMenuOrderAsync({ channel, data: items });
 		await fetchListAsync();
 	}
 

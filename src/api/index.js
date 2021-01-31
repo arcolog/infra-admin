@@ -11,12 +11,12 @@ export const fetchMenuListAsync = async ({ channel }) =>
 		headers: { 'X-Channel-Id': channel, 'X-Api-Key': INFRA_API_KEY }
 	});
 
-export const saveMenuItemAsync = async (item) =>
+export const postMenuItemAsync = async (item) =>
 	await axios.post(`${INFRA_API_URL}/admin/menu/save`, item, {
 		headers: { 'X-Channel-Id': item.channel, 'X-Api-Key': INFRA_API_KEY },
 	});
 
-export const saveMenuOrderAsync = async ({ channel, data }) =>
+export const postMenuOrderAsync = async ({ channel, data }) =>
 	await axios.post(`${INFRA_API_URL}/admin/menu/saveOrder`, { data }, {
 		headers: { 'X-Channel-Id': channel, 'X-Api-Key': INFRA_API_KEY },
 	});
@@ -32,16 +32,28 @@ export const fetchMenuStatsAsync = async() =>
 });
 
 export const fetchSitesAsync = async() =>
-	await axios.get(`${INFRA_API_URL}/admin/sites`, {
+	await axios.get(`${INFRA_API_URL}/admin/site/all`, {
 		headers: { 'X-Api-Key': INFRA_API_KEY }
 });
+
+export const fetchSiteAsync = async(site) =>
+	await axios.get(`${INFRA_API_URL}/admin/site`, {
+		headers: { 'X-Channel-Id': site.channel, 'X-Api-Key': INFRA_API_KEY }
+	});
+
+export const postSiteAsync = async (site) =>
+	await axios.post(`${INFRA_API_URL}/admin/site/save`, { ...site}, {
+		headers: { 'X-Channel-Id': site.channel, 'X-Api-Key': INFRA_API_KEY }
+	});
 
 export default {
 	fetchMenuListAsync,
 	fetchMenuListOfTypeAsync,
 	fetchSitesAsync,
-	saveMenuItemAsync,
-	saveMenuOrderAsync,
+	fetchSiteAsync,
+	postMenuItemAsync,
+	postMenuOrderAsync,
+	postSiteAsync,
 	deleteMenuItemAsync,
 	fetchMenuStatsAsync,
 }

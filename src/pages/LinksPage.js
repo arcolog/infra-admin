@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Divider, Grid, LinearProgress } from '@material-ui/core';
+import { Button, Divider, Grid, LinearProgress, TextField} from '@material-ui/core';
 
 import {
   LIST_TYPES,
@@ -9,7 +9,8 @@ import {
   LIST_TYPE_LEGAL,
   SOCIAL_MEDIA_TYPES,
 } from '../constants';
-import { deleteMenuItemAsync, fetchMenuListAsync, fetchMenuListOfTypeAsync, saveMenuItemAsync, saveMenuOrderAsync } from '../api';
+import { deleteMenuItemAsync, fetchMenuListAsync, fetchMenuListOfTypeAsync, postMenuItemAsync,
+  postMenuOrderAsync, fetchSiteAsync, postSiteAsync } from '../api';
 import DraggableList from '../components/elements/DraggableList';
 import SocialMediaIcon from '../components/elements/SocialMediaIcon';
 import MenuItemDialog from '../components/MenuItemDialog';
@@ -37,6 +38,7 @@ const LinksPage = ({
   const [pageIsLoading, setPageIsLoading] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
+  const [siteData, setSiteData] = useState({});
 
   const composeSocialMediaLinks = items => {
     // add missing social media items to list
@@ -58,6 +60,10 @@ const LinksPage = ({
     const updatedItemsByType = (await fetchMenuListAsync({ channel })).data.data;
     updatedItemsByType[LIST_TYPE_SOCIAL] = composeSocialMediaLinks(updatedItemsByType[LIST_TYPE_SOCIAL]);
     setItemsByType(updatedItemsByType);
+
+    const result = await fetchSiteAsync({ channel });
+    setSiteData(result.data.data);
+
     setPageIsLoading(false);
   }, []);
 
@@ -67,7 +73,7 @@ const LinksPage = ({
 
   const handleDragEndAsync = async ({ type, items }) => {
     setItemsByType(prevState => ({ ...prevState, [type]: items }));
-    await saveMenuOrderAsync({ channel, data: items });
+    await postMenuOrderAsync({ channel, data: items });
   }
 
   const fetchListAsync = async ({ type }) => {
@@ -84,12 +90,12 @@ const LinksPage = ({
     }
   };
 
-  const saveItemAsync = async () => {
+  const saveMenuItemAsync = async () => {
     setError('');
     try {
       setIsLoading(true);
       const { type } = activeItem;
-      const result = await saveMenuItemAsync(activeItem);
+      const result = await postMenuItemAsync(activeItem);
       setIsLoading(false);
       if (result.status < 400) {
         await fetchListAsync({ type });
@@ -131,8 +137,40 @@ const LinksPage = ({
     </div>
   );
 
+  const handleSiteProp = (label, value) => {
+    setSiteData(prevState => ({ ...prevState, [label]: value }));
+  }
+
+  const saveSiteItemAsync = async () => {
+    setIsLoading(true);
+    await postSiteAsync(siteData);
+    setIsLoading(false);
+  }
+
+  const renderSiteItemInput = (label, type) => (
+    <TextField label={label} defaultValue={siteData[type]} style={{ margin: '10px 50px 10px 0', minWidth: 250 }}
+               onChange={e => handleSiteProp(type, e.target.value)} />
+  );
+
   return (
     <div>
+      <div style={{ background: '#fafafa', padding: 10, border: '1px solid #eee' }}>
+        <Grid container wrap="nowrap" justify="flex-start">
+          <Grid>{renderSiteItemInput('Nimetus', 'label')}</Grid>
+          <Grid item>
+            <Button onClick={() => saveSiteItemAsync()} size="small" variant="outlined" color="primary">Salvesta</Button>
+          </Grid>
+        </Grid>
+        <Grid container wrap="nowrap" justify="flex-start">
+          <Grid>{renderSiteItemInput('Aadress', 'address')}</Grid>
+          <Grid>{renderSiteItemInput('Email', 'email')}</Grid>
+        </Grid>
+        <Grid container wrap="nowrap" justify="flex-start">
+          <Grid>{renderSiteItemInput('Copyright', 'copyright')}</Grid>
+          <Grid>{renderSiteItemInput('Telefon', 'phone')}</Grid>
+        </Grid>
+      </div>
+      <br />
       {Object.keys(LIST_TYPES).map(type => (
         <div key={type}>
           <Grid container justify="space-between" alignItems="center">
@@ -155,7 +193,7 @@ const LinksPage = ({
       <MenuItemDialog
         item={activeItem}
         error={error}
-        handleSubmitAsync={saveItemAsync}
+        handleSubmitAsync={saveMenuItemAsync}
         handleDeleteAsync={deleteItemAsync}
         handleClose={() => {setActiveItem({ channel });setShowDialog(false);}}
         handleChange={(field, value) => setActiveItem(prevState => ({ ...prevState, [field]: value }))}

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import { CHANNELS, MENU_TYPES, MENU_TYPE_DETAILS } from '../constants';
-import { getChannelName } from '../utils';
 import { fetchMenuStatsAsync } from '../api';
 import LoadingBackdrop from '../components/elements/LoadingBackdrop';
 
@@ -41,7 +40,7 @@ const MainPage = () => {
 								{MENU_TYPE_DETAILS[type].description}
 							</TableCell>
 						))}
-						<TableCell>Lingid</TableCell>
+						<TableCell>Lingid ja infra</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
