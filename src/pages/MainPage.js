@@ -29,6 +29,8 @@ const MainPage = () => {
 
 	return (
 		<div>
+			<Link to="/sheet">Andmetabelid leiad siit »</Link>
+			<hr />
 			<p>Palun vali, millist menüüd soovid muuta</p>
 			<Table size="small" stickyHeader>
 				<TableHead>
@@ -51,12 +53,12 @@ const MainPage = () => {
 								const total = stats[channel] ? stats[channel][type] : 0;
 								return (
 									<TableCell key={type}>
-										<Link to={`/${channel}/menu/${type}`}>{total ? 'Muuda' : 'Lisa'}</Link>
+										<Link to={`/menu/${channel}/${type}`}>{total ? 'Muuda' : 'Lisa'}</Link>
 										{total ? ` (${stats[channel][type]})` : ''}
 									</TableCell>
 								)
 							})}
-							<TableCell><Link to={`/${channel}/links`}>Muuda</Link></TableCell>
+							<TableCell><Link to={`/links/${channel}`}>Muuda</Link></TableCell>
 						</StyledTableRow>
 					))}
 				</TableBody>

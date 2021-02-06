@@ -110,7 +110,7 @@ DraggableList.propTypes = {
     label: PropTypes.string,
     url: PropTypes.string,
     priority: PropTypes.number,
-  })).isRequired,
+  })),
   ItemComponent: PropTypes.func.isRequired, // functional component
   type: PropTypes.oneOf([...MENU_TYPES, ...Object.keys(LIST_TYPES)]).isRequired,
   handleDragEndAsync: PropTypes.func.isRequired, // ({ type, items }) as props

@@ -2,7 +2,7 @@ import { CHANNELS } from './constants';
 
 export const getChannelFromPath = path => {
 	const parts = path.split('/');
-	const channel = parts[1];
+	const channel = parts[2];
 	if (CHANNELS.indexOf(channel) > -1) {
 		return channel;
 	}
@@ -12,6 +12,14 @@ export const getChannelFromPath = path => {
 export const capitalize = (string) => {
 	if (typeof string !== 'string') return '';
 	return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+// TODO: implement fancier formatting with 'date-fns' or smth
+export const formatDate = (date) => {
+	if (date.length >= 19) {
+		return date.slice(0, 16).replace('T', ' '); // date and time
+	}
+	return date.slice(0, 11); // only date
 }
 
 export const getChannelName = channel => {
@@ -25,6 +33,7 @@ export const getChannelName = channel => {
 }
 
 export default {
+	formatDate,
 	getChannelFromPath,
 	getChannelName,
 }

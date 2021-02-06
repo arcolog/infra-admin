@@ -22,7 +22,7 @@ const MenuItemDialog = ({
 	const fields = [
 		{	name: 'label', label: 'Nimetus', helperText: 'Vähemalt 3 tähte', validate: val => val.length < 3 ? 'Nimetus on liiga lühike' : undefined },
 		{	name: 'url', label: 'URL', helperText: 'Lokaalne (/..) või väline (https://...) link', validate: val => !val ? 'URL puudub' : undefined },
-	]
+	];
 	const modalLabel = item.id ? 'Muuda kirjet' : 'Lisa kirje';
 	const showDelete = item.id && (
 		!!item.menuItemId || // is subitem

@@ -27,7 +27,7 @@ export const deleteMenuItemAsync = async (item) =>
 	});
 
 export const fetchMenuStatsAsync = async() =>
-	await axios.get(`${INFRA_API_URL}/admin/stats/menus`, {
+	await axios.get(`${INFRA_API_URL}/admin/stat/menus`, {
 	headers: { 'X-Api-Key': INFRA_API_KEY }
 });
 
@@ -46,6 +46,24 @@ export const postSiteAsync = async (site) =>
 		headers: { 'X-Channel-Id': site.channel, 'X-Api-Key': INFRA_API_KEY }
 	});
 
+export const uploadSheetAsync = async ({ formData, onUploadProgress = () =>  {} }) =>
+	await axios.post(`${INFRA_API_URL}/admin/sheet/upload`,
+		formData,
+		{	headers: { 'X-Api-Key': INFRA_API_KEY } },
+		onUploadProgress,
+	);
+
+export const downloadSheetAsync = async ({ id }) =>
+	await axios.get(`${INFRA_API_URL}/admin/sheet/download/${id}`, {
+		headers: { 'X-Api-Key': INFRA_API_KEY },
+		responseType: 'blob',
+	});
+
+export const fetchSheetListAsync = async () =>
+	await axios.get(`${INFRA_API_URL}/admin/sheet/list`, {
+		headers: { 'X-Api-Key': INFRA_API_KEY }
+	});
+
 export default {
 	fetchMenuListAsync,
 	fetchMenuListOfTypeAsync,
@@ -56,4 +74,7 @@ export default {
 	postSiteAsync,
 	deleteMenuItemAsync,
 	fetchMenuStatsAsync,
+	downloadSheetAsync,
+	uploadSheetAsync,
+	fetchSheetListAsync,
 }
