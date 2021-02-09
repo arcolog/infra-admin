@@ -49,8 +49,11 @@ export const postSiteAsync = async (site) =>
 export const uploadSheetAsync = async ({ formData, onUploadProgress = () =>  {} }) =>
 	await axios.post(`${INFRA_API_URL}/admin/sheet/upload`,
 		formData,
-		{	headers: { 'X-Api-Key': INFRA_API_KEY } },
-		onUploadProgress,
+		{
+			headers: { 'X-Api-Key': INFRA_API_KEY },
+			timeout: 60000,
+			onUploadProgress,
+		}
 	);
 
 export const downloadSheetAsync = async ({ id }) =>

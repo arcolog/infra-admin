@@ -61,7 +61,7 @@ const SheetPage = () => {
 					Andmetabelid on Exceli tabelid, mida lisatakse artiklitesse Google Sheets ID viite abil -<br />
 				  front-end tõmbab selle tulemusel InfraAPIst tabeli andmed JSON formaadis.<br />
 					Kui tabelil on Google Sheets ID olemas, saab alltoodud teda lingil klikkides avada Google Sheetsis.<br />
-					Üles saab laadida max 5 MB suuruseid Exceli faile (.xls, .xlsx)
+					Üles saab laadida max 5 MB suuruseid Exceli faile (.xlsx)
 				</Grid>
 				<Grid item>
 					<Button	onClick={() => setShowDialog(true)} {...uploadButtonProps }>Lae uus fail</Button>

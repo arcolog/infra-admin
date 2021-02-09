@@ -32,8 +32,11 @@ export const getChannelName = channel => {
 	return channelName;
 }
 
+export const getFileExtension = filename => filename.split('.').pop();
+
 export default {
 	formatDate,
 	getChannelFromPath,
 	getChannelName,
+	getFileExtension,
 }

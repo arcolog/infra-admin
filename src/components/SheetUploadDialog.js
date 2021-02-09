@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Input, TextField } from '@material-ui/core';
-import LoopIcon from '@material-ui/icons/Loop';
 import CancelIcon from '@material-ui/icons/Cancel';
 import SaveIcon from '@material-ui/icons/Save';
+import { CircularProgress } from '@material-ui/core';
 import { uploadSheetAsync } from '../api';
+import { getFileExtension } from '../utils';
 
 const SheetUploadDialog = ({
 	isOpened,
@@ -18,8 +19,10 @@ const SheetUploadDialog = ({
 	const [selectedFile, setSelectedFile] = useState();
 	const [isFileSelected, setIsFileSelected] = useState(false);
 	const [data, setData] = useState({ title: '', googleSheetId: '' });
+	const [progress, setProgress] = useState(0);
 
 	const handleFileSelect = (event) => {
+		setProgress(0);
 		setUploadError(undefined);
 		setSelectedFile(event.target.files[0]);
 		setIsFileSelected(true);
@@ -39,8 +42,22 @@ const SheetUploadDialog = ({
 	];
 
 	const validateExtension = (filename) => {
-		const [, ext] = (filename || '').split('.');
-		return (!ext || ['xls', 'xlsx'].indexOf(ext) < 0)  ? 'See pole Exceli fail!' : undefined;
+		const ext = getFileExtension(filename);
+		if (ext === 'xls') {
+			return 'Vananenud XLS-failid pole toetatud!';
+		}
+		return ext && ext === 'xlsx' ? undefined : 'See pole Exceli fail!';
+	}
+
+	const onUploadProgress = event => {
+		setProgress(Math.round(100 * event.loaded / event.total));
+	}
+
+	const onClose = () => {
+		setIsUploading(false);
+		setIsFileSelected(false);
+		setProgress(0);
+		handleClose();
 	}
 
 	const validate = () => {
@@ -63,24 +80,26 @@ const SheetUploadDialog = ({
 			formData.append('file', selectedFile);
 			formData.append('title', data.title);
 			formData.append('googleSheetId', data.googleSheetId || '');
-			const result = (await uploadSheetAsync({ formData })).data || {};
+			const result = await uploadSheetAsync({ formData, onUploadProgress });
+			console.log('upload result', result);
 			setIsUploading(false);
-			if (result.message) {
+			if (result?.data?.message) {
 				setIsUploaded(true);
 				setIsFileSelected(false);
 				await handleSubmitAsync();
 			}
-			if (result.error) {
+			if (result?.error) {
 				setUploadError(result.error);
 			}
 		}
 	}
 
 	return (
-		<Dialog	open={isOpened}	onClose={() => {setIsUploading(false);handleClose()}}>
+		<Dialog	open={isOpened}	onClose={onClose}>
 			<DialogTitle style={{ cursor: 'move' }} id="menu-item-dialog">
 				Lae fail üles
-				{isUploading && <LoopIcon />}
+				{isUploading && <CircularProgress size={16} style={{ margin: '0 10px' }} />}
+				{progress > 0 && ` ${progress}%`}
 			</DialogTitle>
 			<form onSubmit={onSubmit} encType="multipart/form-data">
 				<DialogContent style={{ minWidth: 350 }}>
@@ -116,7 +135,7 @@ const SheetUploadDialog = ({
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleClose} color="default" variant="outlined" startIcon={<CancelIcon />}>Tühista</Button>
+					<Button onClick={onClose} color="default" variant="outlined" startIcon={<CancelIcon />}>Tühista</Button>
 					<Button color="primary" variant="outlined"
 					        startIcon={<SaveIcon />} disabled={!isFileSelected || isUploading}
 					        component={props => <button {...props} type="submit"/>}>Salvesta</Button>
